@@ -12,11 +12,11 @@ pipeline {
     steps {
         sshagent(['jenkins-ssh-key1']) {
             sh '''
-                rm -rf temp_repo
-                ssh -o StrictHostKeyChecking=no $GIT_EC2 "tar -czf - -C $REMOTE_REPO_PATH ." | tar -xzf - -C .
-                mkdir -p temp_repo
-                bash -c "shopt -s extglob && mv !(temp_repo) temp_repo"
-            '''
+    rm -rf temp_repo
+    ssh -o StrictHostKeyChecking=no $GIT_EC2 "tar -czf - -C $REMOTE_REPO_PATH ." | tar -xzf - -C .
+    mkdir -p temp_repo
+    find . -mindepth 1 -maxdepth 1 ! -name temp_repo -exec mv {} temp_repo/ \\;
+'''
         }
     }
 }
