@@ -11,13 +11,14 @@ pipeline {
         stage('Clone from Git EC2') {
             steps {
                 sshagent(['jenkins-ssh-key1']) {
-                    sh '''
-                        rm -rf temp_repo
-                        ssh -o StrictHostKeyChecking=no $GIT_EC2 "tar -czf - -C $REMOTE_REPO_PATH ." | tar -xzf - -C .
-                        mkdir -p temp_repo
-                        mv * temp_repo || true
-                    '''
-                }
+    sh '''
+        rm -rf temp_repo
+        ssh -o StrictHostKeyChecking=no $GIT_EC2 "tar -czf - -C $REMOTE_REPO_PATH ." | tar -xzf - -C .
+        mkdir -p temp_repo
+        shopt -s extglob
+        mv !(temp_repo) temp_repo
+    '''
+}
             }
         }
 
