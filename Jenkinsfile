@@ -6,11 +6,11 @@ pipeline {
     }
 
     stages {
-        stage('Deploy to Nginx') {
+        stage('Deploy Travel Website to Nginx') {
             steps {
                 sh '''
                     sudo rm -rf $LOCAL_DEPLOY_PATH/*
-                    sudo cp -r * $LOCAL_DEPLOY_PATH/
+                    sudo cp -r Travel/* $LOCAL_DEPLOY_PATH/
                     sudo systemctl reload nginx
                 '''
             }
